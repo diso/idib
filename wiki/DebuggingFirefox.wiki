@@ -1,0 +1,11 @@
+Tips for debugging the Firefox plugin.
+
+= Introduction =
+
+IDIB is currently 100% Javascript and does not contain any native XPCOM components or interfaces, so all debugging is done using standard web-developer tools.
+
+== Prerequisites ==
+
+  * [http://getfirebug.com/ Firebug] is highly recommended, but not required.
+
+IDIB comes with support for Firebug making it easier to debug. If you do not have Firebug installed, you can still receive debug messages through the error console.
