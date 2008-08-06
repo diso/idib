@@ -1,0 +1,22 @@
+_Building the Firefox Plugin from SV_
+
+= Introduction =
+
+There is a build script provided that makes building from source simple and easy.
+
+== Prerequisites ==
+
+Subversion (SVN) installed so you can check out the project tree.
+Python 2.3 or greater. The build script requires you to have python installed.
+
+= How To =
+
+  # Check the code out via SVN
+{{{
+svn checkout http://browser-identity.googlecode.com/svn/trunk/ browser-identity
+}}}
+  # Inside the browser-identity directory you checked out, run package.py and specify whether or not you want to build the debug or stable version.
+{{{
+python package.py debug
+}}}
+The package script should do the rest. There will be a 'export/' directory created in the project directory that will contain some build files along with the .xpi plugin file for testing.
