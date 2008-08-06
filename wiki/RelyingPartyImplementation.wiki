@@ -1,0 +1,53 @@
+= Introduction =
+
+IDentity In the Browser or "IDIB" (pronounced 'eye dib') is a new technology that addresses many of the problems facing OpenID today.
+
+This document outlines the necessary steps for adding IDIB support to any Relying Party (RP) site. They key points in the RP implementation are for the RP to define where their login form is located and to establish a user 'beacon' that allows the plug-in to determine if a user is already logged into a given RP.
+
+== Relying Party Support ==
+
+=== XRDS Service Definitions ===
+IDIB introduces two new XRDS service types which are required for proper support.
+
+==== IDIB Login URL ====
+
+IDIB Login allows a user to login to an RP without hunting for a login button or link. The user is presented with a subtle notification allowing them to login from any page on the RP site by clicking a button.
+{{{
+    <Service>
+      <Type>http://specs.openid.net/idib/1.0/login</Type>
+        <URI simple:httpMethod="POST">http://blog.vidoop.com/wp-login.php</URI>
+    </Service>
+}}}
+==== IDIB Indicator ==== 
+
+The IDIB Indicator URL is a simple service that gives IDIB the ability to determine if a user is currently logged on a RP site. The response is based on a user's session so no parameters need to be passed to it. The XRDS URI defined should point to a IDIB Indicator service endpoint that simply replies with 'false' if the user is NOT currently logged in and 'true' if the user has an existing session with the RP.
+{{{
+    <service>
+      <type>http://specs.openid.net/idib/1.0/indicator</type>
+      <uri>http://blog.vidoop.com/beacon.php</uri>
+    </service>
+}}}
+*Example:* The following is an example implementation or a IDIB Indicator that works for Wordpress.
+{{{
+<?php
+require( 'wp-config.php' );
+
+if (is_user_logged_in()){
+  echo 'true';
+} else {
+  echo 'false';
+}
+?>
+}}}
+Valid negative IDIB Indicator http response.
+{{{
+HTTP/1.1 200 OK
+Date: Thu, 31 Jul 2008 17:55:38 GMT
+Server: Apache/2.0.52
+Set-Cookie: PHPSESSID=6d9rdc68p95ipj0et828muuqp5; path=/
+Content-Length: 6
+Connection: close
+Content-Type: text/html
+
+false
+}}}
