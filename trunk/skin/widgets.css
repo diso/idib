@@ -1,0 +1,5 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+login_notification {
+    -moz-binding: url('chrome://openid/content/widgets.xml#login_notification');
+}

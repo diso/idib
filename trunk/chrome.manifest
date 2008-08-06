@@ -1,0 +1,3 @@
+content     openid    content/
+skin        openid    classic/1.0    skin/
+overlay chrome://browser/content/browser.xul chrome://openid/content/browser.xul

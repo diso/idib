@@ -1,0 +1,74 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+.login_notification, .remember_notification {
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.openid_header {
+    background: white url("chrome://openid/content/images/openid_small.png") no-repeat;
+    background-position: 10px 2px;
+    border-bottom: 1px solid #9F9F9F;
+    height: 37px;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.openid_description {
+    color: #161616;
+    font-size: 10px;
+    margin-top: 0px;
+    background-color: transparent;
+    max-height: 24px;
+    min-height: 12px;
+}
+
+.openid_leftside {
+	background: #FFFFFF url("chrome://openid/content/images/background.gif") no-repeat top right !important;
+	margin-left: 93px;
+	width:300px;
+	height: 37px;
+}
+
+.openid_whats_this {
+    color: #0376CE; 
+    text-decoration: underline; 
+    cursor: pointer !important;
+    font-size: 9px;
+}
+
+.openid_actions {
+    vertical-align: middle;
+}
+
+.openid_rightside {
+	background-color: #E6E6E6;
+}
+
+label.spacer {
+    color: #9A9A9A;
+    text-decoration: none;
+    cursor: none;
+    width: 1px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.affirmative_link {
+    color: #0376CE; 
+    text-decoration: underline; 
+}
+
+.affirmative_link:hover {
+    color: #2396EE; 
+    cursor: pointer !important;
+}
+
+.negative_link {
+    color: #FF0033; 
+    text-decoration: underline;
+}
+
+.negative_link:hover {
+    color: #FF2073;
+    cursor: pointer !important;
+}

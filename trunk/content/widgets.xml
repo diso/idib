@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" 
+         xmlns:xbl="http://www.mozilla.org/xbl"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <binding id="bar">
+    <resources>
+      <stylesheet src="chrome://openid/skin/notification.css"/>
+    </resources>
+    <content>
+      <xul:hbox flex="1" class="openid_header" height="0">
+        <xul:hbox class="openid_leftside" align="center" flex="1" minheight="37">
+          <html:p style="margin-top: 0px; margin-bottom: 0px; max-height: 24px; width: 60%;" flex="1"><html:span anonid="plabel"></html:span></html:p>
+        </xul:hbox>
+        <xul:hbox class="openid_rightside" align="center" pack="center" minheight="37">
+          <children/>
+          <xul:toolbarbutton onclick="this.parentNode.parentNode.parentNode.hide();" class="tab-close-button"/>
+        </xul:hbox>
+      </xul:hbox>
+    </content>
+    <implementation>
+      <property name="browser" onget="return this._browser;" onset="this._browser = val; this._tabChanged(null);"/>
+      <property name="label" onget="var element = document.getAnonymousElementByAttribute(this, 'anonid', 'plabel'); return (element) ? element.textContent : null;" 
+                               onset="document.getAnonymousElementByAttribute(this, 'anonid', 'plabel').textContent = val;"/>
+
+      <method name="_effect">
+        <parameter name="callback"/>
+        <parameter name="start"/>
+        <parameter name="end"/>
+        <parameter name="step"/>
+        <body>
+          <![CDATA[
+            var me = this;
+            var clamp = (start > end) ? Math.max : Math.min;
+
+            function animate() {
+              var currentTime = new Date().getTime();
+              try {callback(current = clamp(current + step * (currentTime - lastTime), end));}
+              catch(e) { Components.utils.reportError(e); }
+              lastTime = currentTime;
+
+              if (start < end && current >= end || start > end && current <= end) {
+                clearInterval(handle);
+                handle = null;
+                callback = null;
+              }
+            }
+
+            var current = start;
+            var lastTime = new Date().getTime();
+            callback(start);
+            var handle = setInterval(animate, 10);
+          ]]>
+        </body>
+      </method>
+
+      <method name="_tabChanged">
+        <parameter name="event"/>
+        <body>
+          <![CDATA[
+          var onMyTab = this._browser == (event ? getBrowser().getBrowserAtIndex(event.target.selectedIndex) : getBrowser().selectedBrowser);
+          this.setAttribute("hidden", !onMyTab);
+          ]]>
+        </body>
+      </method>
+
+      <method name="show">
+        <body>
+          <![CDATA[
+          var me = this;
+          this._effect(function(val) { me.height = val + "px"; }, 0, 35, .4);
+          
+          ]]>
+        </body>
+      </method>
+
+      <method name="hide">
+        <body>
+          <![CDATA[
+          var me = this;
+          this._effect(function(val) { 
+            me.height = val + "px"; 
+            if (val <= 0) {
+              me.parentNode.parentNode.removeChild(me.parentNode);
+            }
+          }, 35, 0, -.4);
+          ]]>
+        </body>
+      </method>
+
+      <constructor>
+        <![CDATA[
+        this._browser = getBrowser().selectedBrowser;
+        var me = this;
+        
+        //Prevent double pops
+        if (this._browser.getElementsByTagName('login_notification').length) {
+          return;
+        }
+        
+        dump(content.document);
+        
+        getBrowser().mPanelContainer.addEventListener("select", function(event) { 
+          if (event.target.tagName == "xul:tabpanels") {
+              if ("_tabChanged" in me)
+                me._tabChanged.apply(me, [event]); 
+              else {
+                me = null;
+                getBrowser().mPanelContainer.removeEventListener("select", arguments.callee, true);
+              }
+            }
+        }, true);
+        this.show();
+        ]]>
+      </constructor>
+
+      <destructor>
+        this._browser = null;
+      </destructor>
+    </implementation>
+  </binding>
+
+  <binding id="notification">
+    <implementation>
+      <property name="browser" onget="var element = document.getAnonymousElementByAttribute(this, 'anonid', 'notification'); return (element) ? element.browser : null;" 
+                               onset="document.getAnonymousElementByAttribute(this, 'anonid', 'notification').browser = val;"/>
+      <property name="label" onget="var element = document.getAnonymousElementByAttribute(this, 'anonid', 'notification'); return (element) ? element.label : null;" 
+                               onset="document.getAnonymousElementByAttribute(this, 'anonid', 'notification').label = val;"/>
+      <field name="events"/>
+      <method name="show">
+        <body>
+          <![CDATA[
+          var element = document.getAnonymousElementByAttribute(this, "anonid", "notification");
+          if (element) 
+              element.show();
+          ]]>
+        </body>
+      </method>
+
+      <method name="hide">
+        <body>
+          <![CDATA[
+          var element = document.getAnonymousElementByAttribute(this, "anonid", "notification");
+          if (element) 
+            element.hide();
+          ]]>
+        </body>
+      </method>
+    </implementation>
+  </binding>
+
+  <binding id="login_notification" extends="chrome://openid/content/widgets.xml#notification" display="xul:hbox">
+    <resources>
+      <stylesheet src="chrome://openid/skin/notification.css"/>
+    </resources>
+    <content>
+      <xul:hbox style="-moz-binding: url('chrome://openid/content/widgets.xml#bar');" class="login_notification" flex="1" anonid="notification">
+        <xul:button label="Sign In With OpenID!" onclick="this.parentNode"/>
+        <xul:label value="|" class="spacer" />
+        <xul:label value="Switch OpenID" anonid="change_user" class="affirmative_link"/>
+        <xul:label value="|" anonid="change_user_pipe" class="spacer" />
+        <xul:label value="Cancel" class="negative_link"/>
+      </xul:hbox>
+    </content>
+    <implementation>
+      <constructor>
+        <![CDATA[
+        var me = this;
+        document.getAnonymousElementByAttribute(this, "label", "Sign In With OpenID!").onclick = function() { me.hide(); me.events.onSignIn(me); };
+        document.getAnonymousElementByAttribute(this, "value", "Switch OpenID").onclick = function() {me.events.onSwitchOpenID(me); };
+        document.getAnonymousElementByAttribute(this, "value", "Cancel").onclick = function() { me.hide(); me.events.onCancel(me); };
+       //this._setUserId(this.userid);
+        ]]>
+      </constructor>
+    </implementation>
+  </binding>
+</bindings>

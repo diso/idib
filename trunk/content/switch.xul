@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+ <prefwindow id="openid-prefs" title="OpenID Options" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ 
+<prefpane id="openid-pane" label="OpenID URL">
+  <preferences>
+    <preference id="pref_openid" name="extensions.openid.url" type="string"/>
+  </preferences>
+ 
+  <hbox align="center">
+    <label control="symbol" value="OpenID: "/>
+    <textbox preference="pref_openid" id="symbol" maxlength="500"/>
+  </hbox>
+  <button label="Close"
+          oncommand="window.close()"/>
+  
+</prefpane>
+ 
+</prefwindow>
