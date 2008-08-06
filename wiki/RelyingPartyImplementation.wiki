@@ -1,4 +1,6 @@
+#summary Relying Party Implementation Overview
 #labels Featured
+
 = Introduction =
 
 IDentity In the Browser or "IDIB" (pronounced 'eye dib') is a new technology that addresses many of the problems facing OpenID today.
