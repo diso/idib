@@ -2,4 +2,4 @@
 
 = Introduction =
 
-Firefox OpenID is an effort to port FlockOpenID to the Firefox browser.
+Firefox OpenID is an effort to port [FlockOpenID Flock OpenID] to the Firefox browser.
