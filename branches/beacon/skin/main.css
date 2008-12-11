@@ -1,0 +1,6 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#switch_openid_menu {
+  list-style-image: url("chrome://openid/content/images/openidx16.png");
+  -moz-image-region: rect(24px 24px 48px 0px);
+}

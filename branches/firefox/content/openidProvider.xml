@@ -1,0 +1,463 @@
+<!--
+   BEGIN FLOCK GPL
+
+   Copyright Flock Inc. 2005-2008
+   http://flock.com
+
+   This file may be used under the terms of the
+   GNU General Public License Version 2 or later (the "GPL"),
+   http://www.gnu.org/licenses/gpl.html
+
+   Software distributed under the License is distributed on an "AS IS" basis,
+   WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+   for the specific language governing rights and limitations under the
+   License.
+
+   END FLOCK GPL
+-->
+<bindings id="openidBindings"
+          xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="openidProvider">
+    <content>
+      <xul:vbox class="mainContainer"
+                anonid="providerContainer"
+                detailsView="false">
+        <xul:hbox>
+          <xul:hbox anonid="editPanelTop"
+                    class="paddingContainer nameContainer">
+            <xul:image anonid="favicon"
+                       class="favicon" />
+            <xul:label xbl:inherits="value=displayName"
+                       onclick="updateDocumentWithOpenID();" />
+            <xul:label xbl:inherits="value=handle"
+                       onclick="updateDocumentWithOpenID();" />
+          </xul:hbox>
+          <xul:spacer anonid="editPanelTopSpacer"
+                      class="editPanelTopSpacer"
+                      flex="1"/>
+          <xul:hbox class="editContainer paddingContainer"
+                    onclick="toggleDetails();">
+            <xul:image class="detailsIcon" />
+            <xul:label anonid="editLabel"
+                       value="Edit" />
+          </xul:hbox>
+        </xul:hbox>
+        <xul:vbox anonid="detailsContainer"
+                  class="hide">
+          <xul:deck anonid="detailsDeck"
+                    selectedIndex="-1">
+            <xul:vbox class="providerContainer paddingContainer">
+              <xul:label anonid="configureTitle"
+                         class="detailsContainerHeader" />
+              <xul:hbox anonid="errorBox"
+                        class="paddingContainer errorContainer">
+                <xul:label anonid="errorLabel"
+                           class="errorMsgText"
+                           value="Unable to validate OpenID, please try again." />
+              </xul:hbox>
+              <xul:hbox class="mainContainer marginTop">
+                <xul:textbox anonid="handle"
+                             onkeyup="setPreviewURL();"
+                             onfocus="FlockOpenID.focusGetOpenID(event, FlockOpenID.enterUserIDString);"
+                             onblur="FlockOpenID.blurGetOpenID(event, FlockOpenID.enterUserIDString);"
+                             class="textBoxStyleName"
+                             helperText="true" />
+                <xul:button label="Validate"
+                            class="mainButton"
+                            onclick="validateProvider();" />
+              </xul:hbox>
+              <xul:label anonid="previewUrl"
+                         class="previewUrl" />
+            </xul:vbox>
+            <xul:vbox class="providerContainer">
+              <xul:hbox class="paddingContainer centeredContainer noBottomPadding">
+                <xul:label xbl:inherits="value=_id,tooltiptext=_id"
+                           crop="end" />
+              </xul:hbox>
+              <xul:hbox class="paddingContainer centeredContainer noBottomPadding noTopPadding">
+                <xul:button anonid="defaultProviderButton"
+                            class="mainButton"
+                            label="Make Default"
+                            onclick="makeDefaultOpenID();" />
+                <xul:spacer width="5" />
+                <xul:button class="mainButton"
+                            onclick="deletedSelectedOpenID('confirm');"
+                            label="Delete Provider" />
+              </xul:hbox>
+              <xul:label value="Login History"
+                         class="providerHistoryLabel" />
+              <xul:deck anonid="historyDeck"
+                        selectedIndex="0">
+                <xul:vbox anonid="providerHistory"
+                          class="providerHistoryContainer paddingContainer" />
+                <xul:vbox class="paddingContainer">
+                  <xul:label value="This OpenID has not been used to login." />
+                </xul:vbox>
+              </xul:deck>
+            </xul:vbox>
+            <xul:vbox class="centeredContainer">
+              <xul:label anonid="validatingUrl"
+                         value="Validating" />
+              <xul:image class="loaderImage" />
+            </xul:vbox>
+            <xul:vbox class="centeredContainer">
+              <xul:hbox anonid="successBox"
+                        class="paddingContainer successContainer">
+                <xul:label value="Success, your OpenID has been configured." />
+              </xul:hbox>
+              <xul:button label="Add OpenID"
+                          class="mainButton"
+                          onclick="suggestedOpenIDValidated();" />
+            </xul:vbox>
+
+            <xul:vbox class="centeredContainer">
+              <xul:hbox class="paddingContainer errorContainer show">
+                <xul:label value="Are you sure you want to delete this OpenID?" />
+              </xul:hbox>
+              <xul:hbox>
+                <xul:button label="Cancel"
+                            class="mainButton"
+                            onclick="deletedSelectedOpenID('cancel');" />
+                <xul:spacer width="5" />
+                <xul:button label="Yes"
+                            class="mainButton"
+                            onclick="deletedSelectedOpenID('delete');" />
+              </xul:hbox>
+
+            </xul:vbox>
+
+          </xul:deck>
+        </xul:vbox>
+      </xul:vbox>
+    </content>
+    <implementation>
+      <xbl:field name="mConfigureTitle">
+        document.getAnonymousElementByAttribute(this, "anonid", "configureTitle");
+      </xbl:field>
+      <xbl:field name="mDetailsDeck">
+        document.getAnonymousElementByAttribute(this, "anonid", "detailsDeck");
+      </xbl:field>
+      <xbl:field name="mDetailsContainer">
+        document.getAnonymousElementByAttribute(this, "anonid", "detailsContainer");
+      </xbl:field>
+      <xbl:field name="mEditLabel">
+        document.getAnonymousElementByAttribute(this, "anonid", "editLabel");
+      </xbl:field>
+      <xbl:field name="mErrorBox">
+        document.getAnonymousElementByAttribute(this, "anonid", "errorBox");
+      </xbl:field>
+      <xbl:field name="mErrorLabel">
+        document.getAnonymousElementByAttribute(this, "anonid", "errorLabel");
+      </xbl:field>
+      <xbl:field name="mHandle">
+        document.getAnonymousElementByAttribute(this, "anonid", "handle")
+      </xbl:field>
+      <xbl:field name="mHistoryDeck">
+        document.getAnonymousElementByAttribute(this, "anonid", "historyDeck")
+      </xbl:field>
+      <xbl:field name="mFavicon">
+        document.getAnonymousElementByAttribute(this, "anonid", "favicon");
+      </xbl:field>
+      <xbl:field name="mDefaultProviderButton">
+        document.getAnonymousElementByAttribute(this, "anonid", "defaultProviderButton");
+      </xbl:field>
+      <xbl:field name="mPreviewUrl">
+        document.getAnonymousElementByAttribute(this, "anonid", "previewUrl");
+      </xbl:field>
+      <xbl:field name="mProviderHistory">
+        document.getAnonymousElementByAttribute(this, "anonid", "providerHistory");
+      </xbl:field>
+      <xbl:field name="mProviderContainer">
+        document.getAnonymousElementByAttribute(this, "anonid", "providerContainer");
+      </xbl:field>
+      <xbl:field name="mEditPanelTop">
+        document.getAnonymousElementByAttribute(this, "anonid", "editPanelTop");
+      </xbl:field>
+      <xbl:field name="mEditPanelTopSpacer">
+        document.getAnonymousElementByAttribute(this, "anonid", "editPanelTopSpacer");
+      </xbl:field>
+      <constructor>
+        <![CDATA[
+          var bundle = FlockOpenID.getBundle();
+          this.enterUserIDString =
+            bundle.GetStringFromName("flock.configureSuggested.textbox.helperText");
+
+          this.initFavicon();
+
+          if (isConfigured) {
+            var id = this.getAttribute("_id");
+
+            // Populate the OpenID's history
+            var historyArray = OpenIDData.getHistoryForID(id);
+            var historyDeckSelectedIndex;
+            if (historyArray && historyArray.length > 0) {
+              this.setHistory(historyArray);
+              historyDeckSelectedIndex = 0;
+            } else {
+              historyDeckSelectedIndex = 1;
+            }
+            mHistoryDeck.selectedIndex = historyDeckSelectedIndex;
+
+            // Is this the default?
+            this.setDefaultState(FlockOpenID.isDefaultOpenID(id));
+          } else {
+            mEditLabel.value = "Configure";
+
+            // Show the default preview URL
+            this.setPreviewURL();
+            this.setConfigureTitle();
+          }
+
+          // Add in helper text now that the previewURL has been set
+          this.mHandle.value = "Enter Userid";
+
+          // Display either the OpenID edit details or configuration pane
+          this.mDetailsDeck.selectedIndex = (isConfigured) ? 1 : 0;
+        ]]>
+      </constructor>
+
+      <xbl:field name="_providerData" />
+      <xbl:field name="_wd" />
+
+      <xbl:property name="providerData">
+        <xbl:getter><![CDATA[
+          if (!this._providerData) {
+            this._providerData = FlockOpenID.getProviderData();
+          }
+          return this._providerData;
+        ]]></xbl:getter>
+      </xbl:property>
+
+      <xbl:property name="wd">
+        <xbl:getter><![CDATA[
+          if (!this._wd) {
+            this._wd = Components.classes["@flock.com/web-detective;1"]
+                       .getService(Components.interfaces.flockIWebDetective);
+            this._wd.loadFromChrome("chrome://fopenid/content/fopenid.xml");
+          }
+          return this._wd;
+        ]]></xbl:getter>
+      </xbl:property>
+
+      <xbl:method name="initFavicon">
+        <xbl:body><![CDATA[
+          var provider = this.getAttribute("provider");
+
+          if (provider &&
+              this.providerData[provider] &&
+              this.providerData[provider].favicon)
+          {
+            this.mFavicon.setAttribute("src",
+                                       this.providerData[provider].favicon);
+          } else {
+            var defaultFavicon = this.wd.getLocalizedString("fopenid",
+                                                            "defaultFavicon",
+                                                            null);
+            this.mFavicon.setAttribute("src", defaultFavicon);
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="toggleDetails">
+        <xbl:body><![CDATA[
+          if (this.mDetailsContainer.getAttribute("class") == "show") {
+            this.collapse();
+          } else {
+            this.expand();
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="expand">
+        <xbl:body><![CDATA[
+          this.mDetailsContainer.setAttribute("class", "show");
+          this.mProviderContainer.setAttribute("detailsView", "true");
+
+          // Add the border which contains the edit container
+          this.mEditPanelTop.setAttribute("editMode", "true");
+          this.mEditPanelTopSpacer.setAttribute("editMode", "true");
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="collapse">
+        <xbl:body><![CDATA[
+          this.mDetailsContainer.setAttribute("class", "hide");
+          this.mProviderContainer.removeAttribute("detailsView");
+
+          // Remove the border
+          this.mEditPanelTop.removeAttribute("editMode");
+          this.mEditPanelTopSpacer.removeAttribute("editMode");
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="validateProvider">
+        <xbl:body><![CDATA[
+          var validatingUrl =
+            document.getAnonymousElementByAttribute(this, "anonid", "validatingUrl")
+          validatingUrl.setAttribute("value", "Validating " + this.getProviderUrl());
+
+          if (!FlockOpenID.isValidURL(this.getProviderUrl())) {
+            var errorLabel =
+              FlockOpenID.getBundle()
+                         .GetStringFromName("flock.validate.error.url");
+            this.mErrorLabel.setAttribute("value", errorLabel);
+            this.mErrorBox.setAttribute("error", "true");
+            return;
+          }
+
+          // Show the validating screen
+          this.mDetailsDeck.selectedIndex = 2;
+
+          var inst = this;
+          var validationListener = {
+            onResult: function validateProvider_OnResult(aLocation) {
+              if (aLocation) {
+                if (inst.mErrorBox.hasAttribute("error")) {
+                  inst.mErrorBox.removeAttribute("error");
+                }
+
+                // Toggle to the "Success" message
+                inst.mDetailsDeck.selectedIndex = 3;
+              } else {
+                var errorLabel =
+                  FlockOpenID.getBundle()
+                             .GetStringFromName("flock.validate.error.tryAgain");
+                inst.mErrorLabel.setAttribute("value", errorLabel);
+                inst.mErrorBox.setAttribute("error", "true");
+                inst.mDetailsDeck.selectedIndex = 0;
+              }
+            }
+          };
+          FlockOpenID.validateOpenID(this.getProviderUrl(), validationListener);
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="suggestedOpenIDValidated">
+        <xbl:body><![CDATA[
+          FlockOpenID.createOpenIDFromSuggestedID(this.getAttribute("provider"),
+                                                  this.getProviderUrl(),
+                                                  this.mHandle.value);
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="deletedSelectedOpenID">
+        <xbl:parameter name="aType" />
+        <xbl:body><![CDATA[
+          switch (aType) {
+            case "confirm":
+              // First, confirm that the user wants to delete this id
+              this.mDetailsDeck.selectedIndex = 4;
+              break;
+
+            case "cancel":
+              this.mDetailsDeck.selectedIndex = 1;
+              break;
+
+            case "delete":
+              FlockOpenID.deleteOpenID(this.getAttribute("_id"));
+              break;
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="makeDefaultOpenID">
+        <xbl:body><![CDATA[
+          if (this.mDefaultProviderButton.getAttribute("disabled") == "true") {
+            return;
+          }
+          FlockOpenID.setDefaultOpenID(this.getAttribute("_id"));
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="setDefaultState">
+        <xbl:parameter name="aIsDefault" />
+        <xbl:body><![CDATA[
+          if (aIsDefault) {
+            this.mEditPanelTop.setAttribute("default", "true");
+            this.mDefaultProviderButton.setAttribute("disabled", "true");
+          } else {
+            if (this.mEditPanelTop.hasAttribute("default")) {
+              this.mEditPanelTop.removeAttribute("default");
+            }
+            this.mDefaultProviderButton.removeAttribute("disabled");
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="setHistory">
+        <xbl:parameter name="aHistoryArray" />
+        <xbl:body><![CDATA[
+          if (!aHistoryArray) {
+            return;
+          }
+          const kXULNS =
+            "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+          for (var i = 0; i < aHistoryArray.length; i++) {
+            var historyLabel = document.createElementNS(kXULNS, "label");
+            historyLabel.setAttribute("value", aHistoryArray[i]);
+            historyLabel.setAttribute("crop", "end");
+            historyLabel.setAttribute("tooltiptext", aHistoryArray[i]);
+            this.mProviderHistory.appendChild(historyLabel);
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="updateDocumentWithOpenID">
+        <xbl:body><![CDATA[
+          if (this.getAttribute("isConfigured") == "false") {
+            return;
+          }
+          FlockOpenID.formFill(FlockOpenID._loginInputNodeArray,
+                               this.getAttribute("_id"));
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="setPreviewURL">
+        <xbl:body><![CDATA[
+          this.mPreviewUrl.setAttribute("value", this.getProviderUrl());
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="setConfigureTitle">
+        <xbl:body><![CDATA[
+          var title = "Configure OpenID - "
+                    + this.providerData[this.getAttribute("provider")]
+                          .displayName;
+          this.mConfigureTitle.setAttribute("value", title);
+        ]]></xbl:body>
+      </xbl:method>
+
+      <xbl:method name="getProviderUrl">
+        <xbl:body><![CDATA[
+          var provider = this.getAttribute("provider");
+          if (provider &&
+              this.providerData[provider] &&
+              this.providerData[provider].url)
+          {
+            return this.providerData[provider]
+                       .url.replace("%USERNAME%", this.mHandle.value);
+          }
+        ]]></xbl:body>
+      </xbl:method>
+
+      <property name="isConfigured">
+        <getter>
+          <![CDATA[
+            return (this.getAttribute("isConfigured") == "true");
+          ]]>
+        </getter>
+        <setter>
+          <![CDATA[
+            this.setAttribute("isConfigured", val);
+          ]]>
+        </setter>
+      </property>
+
+    </implementation>
+  </binding>
+
+</bindings>
