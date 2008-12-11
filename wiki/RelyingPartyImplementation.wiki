@@ -1,4 +1,4 @@
-#summary Relying Party Implementation Overview
+#summary Relying Party Beacon Implementation
 
 = Introduction =
 
