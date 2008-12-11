@@ -1,0 +1,5 @@
+#summary Firefox OpenID
+
+= Introduction =
+
+Firefox OpenID is an effort to port FlockOpenID to the Firefox browser.
