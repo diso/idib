@@ -1,0 +1,407 @@
+/**
+ * BEGIN FLOCK GPL
+ *
+ * Copyright Flock Inc. 2005-2008
+ * http://flock.com
+ *
+ * This file may be used under the terms of the
+ * GNU General Public License Version 2 or later (the "GPL"),
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * END FLOCK GPL
+ */
+
+openidProvider {
+  -moz-binding: url("chrome://fopenid/content/openidProvider.xml#openidProvider");
+}
+
+openidProvider[isConfigured="true"] .nameContainer label {
+  cursor: pointer;
+}
+
+.infoMsg,
+.getOpenIDProvider,
+openidProvider {
+  border-bottom: 1px solid #eeeeee;
+}
+
+#fopenIDToolbarContainer {
+  border: 1px solid #cccccc;
+  -moz-border-radius: 10px;
+  background-color: #ffffff;
+  padding: 0;
+  margin: 0;
+  margin-right: 5px;
+}
+
+#fopenIDToolbarContainer[active="true"] {
+  border-color: #ff7c0a;
+  background-color: #fde0c7;
+}
+
+#fopenIDToolbarContainer[active="true"] #defaultOpenIDContainer {
+  border-color: #ff7c0a;
+  background-color: #ffffff;
+}
+
+#defaultOpenIDContainer {
+  border: 1px solid #e9e9e9;
+  -moz-border-radius: 10px;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  margin: 2px 2px 2px 0;
+  width: 23px;
+  cursor: pointer;
+}
+
+#defaultOpenIDIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+#urlbar-button-openid {
+  list-style-image: url("chrome://fopenid/skin/btnOpenID.png");
+  cursor: pointer;
+}
+
+.linkOpenIDNet {
+  -moz-box-flex: 1;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  border-top: 1px solid #eeeeee;
+  padding: 4px;
+}
+
+.linkOpenIDNet label {
+  text-align: center;
+  -moz-box-flex: 0;
+  cursor: pointer;
+}
+
+#flockOpenIDPanel {
+  padding: 0;
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+
+#flockOpenIDPanelContainer {
+  -moz-box-flex: 1;
+  padding: 0;
+}
+
+.dontShowContainer {
+  border-top: 1px solid #cccccc;
+  margin-top: 5px;
+  padding-top: 5px;
+  -moz-box-flex: 1;
+  width: 100%;
+}
+
+.loginPanelHeader {
+  -moz-box-flex: 1;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0;
+  border-bottom: 1px solid #999999;
+  min-width: 200px;
+  color: #666666;
+  padding: 5px 5px 5px 25px;
+  background: transparent url("chrome://fopenid/skin/btnOpenID.png") 5px 4px no-repeat;
+}
+
+.loginPanelContainer {
+  -moz-box-flex: 1;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 5px;
+  margin: 0;
+}
+
+#openIDLoginRadio {
+  -moz-box-flex: 1;
+}
+
+.radioContainer {
+  border: 1px solid #e4e3e3;
+  -moz-border-radius: 5px;
+  padding: 2px;
+  background-color: #f3f3f3;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.loginButtonContainer {
+  width: 60px;
+}
+
+.sectionExpanded,
+.sectionCollapsed {
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0;
+  min-width: 300px;
+  background-color: #e8e8e8;
+  border-bottom: 1px solid #999999;
+  color: #666666;
+  padding: 5px 5px 5px 20px;
+  background: transparent url("chrome://fopenid/skin/twistyDown.png") 5px 6px no-repeat;
+}
+
+.sectionCollapsed {
+  background-image: url("chrome://fopenid/skin/twistyUp.png");
+}
+
+.sectionCollapsed + .sectionContainer {
+  display: none;
+}
+
+.sectionCollapsed + .sectionContainer + .sectionExpanded,
+.sectionCollapsed + .sectionContainer + .sectionCollapsed {
+  border-top: 0;
+}
+
+.sectionExpanded + .sectionContainer + .sectionExpanded,
+.sectionExpanded + .sectionContainer + .sectionCollapsed {
+  border-top: 1px solid #999999;
+}
+
+.sectionContainer {
+  min-height: 10px;
+  background-color: #ffffff;
+}
+
+.providerContainer,
+.mainContainer,
+.detailsContainer {
+  -moz-box-flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.providerContainer {
+  border-bottom: 1px solid #e4e3e3;
+}
+
+.detailsContainer,
+.providerContainer {
+  background-color: #f8f8f8;
+}
+
+.editPanelTopSpacer[editMode="true"],
+.paddingContainer[editMode="true"] {
+  border-bottom: 1px solid #cecece;
+}
+
+.editContainer {
+  background-color: #f8f8f8;
+  border-left: 1px solid #cecece;
+}
+
+#openIDs .editContainer {
+  width: 50px;
+}
+
+#suggestedOpenIDs .editContainer {
+  width: 80px;
+}
+
+.nameContainer[default="true"] {
+  font-weight: bold;
+}
+
+.mainButton {
+  cursor: pointer;
+  -moz-appearance: none;
+  border: 1px solid #999999;
+  -moz-border-radius: 5px;
+  background-color: #ffffff;
+  cursor: pointer;
+  min-width: 0;
+  padding-left-value: 2px;
+  padding-right-value: 2px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mainButton:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.mainButton:hover:active {
+  background-color: #999999;
+}
+
+.mainContainer:not([detailsView="true"]) .editContainer {
+  background-color: #ffffff;
+}
+
+.mainContainer:not([detailsView="true"]):hover .editContainer {
+  background-color: #f7f7f7;
+}
+
+.mainContainer:not([detailsView="true"]):hover .editContainer label {
+  text-decoration: underline;
+}
+
+.mainContainer[detailsView="true"] .editContainer label {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.editContainer label {
+  font-size: 10px;
+  text-transform: uppercase;
+  margin: 2px 0 2px 3px;
+  width: auto;
+  text-align: right;
+}
+
+.marginTop {
+  margin-top: 5px;
+}
+
+.detailsContainerHeader {
+  font-size: 13px;
+  font-weigth: bold;
+  margin: 0 0 10px 0;
+  padding-left: 3px;
+}
+
+.errorContainer {
+  display: none;
+  margin-top: 5px;
+  border: 1px solid #dd3c10;
+  background-color: #ffebe8;
+}
+
+.successContainer {
+  border: 1px solid #54ae6b;
+  background-color: #dcfdce;
+  width: 100%;
+}
+
+.errorContainer[error="true"] {
+  display: -moz-box;
+}
+
+.errorMsgText {
+  -moz-box-flex: 1;
+  text-align: center;
+}
+
+.textBoxStyleName,
+.textBoxStyleNameHelper {
+  max-height: 22px;
+  -moz-box-flex: 1;
+  color: #000000;
+}
+
+.textBoxStyleName[helperText="true"],
+.textBoxStyleNameHelper {
+  color: #bebebe;
+}
+
+.previewUrl {
+  font-size: 11px;
+  -moz-box-flex: 1;
+  text-align: center;
+}
+
+.paddingContainer {
+  padding: 4px;
+}
+
+.noBottomPadding {
+  padding-bottom: 0;
+}
+
+.noTopPadding {
+  padding-top: 0;
+}
+
+.providerContainer label {
+  margin: 0;
+  max-width: 300px;
+}
+
+.getOpenIDProvider {
+  display: -moz-box;
+  padding: 4px;
+}
+
+.getOpenIDLink {
+  color: #2f64da;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0;
+}
+
+.centeredContainer {
+  -moz-box-flex: 1;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+}
+
+.loaderImage {
+  list-style-image: url("chrome://fopenid/skin/ajaxLoader.gif");
+  margin-top: 5px;
+}
+
+.providerContainer:hover .detailsIcon {
+  display: -moz-box;
+  background-color: #cccccc;
+}
+
+.providerHistoryLabel {
+  background-color: #f3f3f3;
+  padding: 0px 4px;
+  font-size: 12px;
+  margin: 0 0 10px 0;
+  text-decoration: underline;
+}
+
+.providerHistoryContainer {
+  min-height: 10px;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.providerHistoryContainer label {
+  max-width: 300px;
+}
+
+.show {
+  display: -moz-box;
+}
+
+.hide,
+.centeredContainer[hide="true"] {
+  display: none;
+}
+
+.detailsIcon,
+.favicon {
+  width: 16px;
+  height: 16px;
+  display: -moz-box;
+  margin-right: 3px;
+}
+
+.detailsIcon {
+  width: 18px;
+  height: 18px;
+  background: transparent url("chrome://fopenid/skin/editExpandCollapse.png") 0px 0px no-repeat;
+  margin-right: 0;
+  cursor: pointer;
+}
+
+.mainContainer:hover .editContainer .detailsIcon,
+.mainContainer[detailsView="true"] .editContainer .detailsIcon {
+  background-position: 0px -18px;
+}

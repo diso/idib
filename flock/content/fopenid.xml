@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service name="fopenid"
+         version="$Id: youtube.xml 20153 2008-10-15 13:00:25Z mlise $"
+         xmlns="http://www.flock.com/web-detective#">
+
+  <strings>
+    <string name="defaultFavicon" locale="default">
+      <![CDATA[http://openid.net/favicon.ico]]>
+    </string>
+    <string name="knownProvidersData" locale="default">
+      <![CDATA[
+        {
+          "aol": { "displayName": "AOL",
+                   "domains" : "aol.com",
+                   "favicon": "http://www.aol.com/favicon.ico",
+                   "url": "http://openid.aol.com/%USERNAME%" },
+          "blogger": { "displayName": "Blogger",
+                       "domains" : "blogger.com",
+                       "favicon": "http://www.blogger.com/favicon.ico",
+                       "url": "http://%USERNAME%.blogspot.com" },
+          "flickr": { "displayName": "Flickr",
+                      "domains": "flickr.com",
+                      "favicon": "http://www.flickr.com/favicon.ico",
+                      "url": "http://www.flickr.com/photos/%USERNAME%" },
+          "livedoor": { "displayName": "LiveDoor",
+                        "domains": "livedoor.com",
+                        "favicon": "http://www.livedoor.com/favicon.ico",
+                        "url": "http://profile.livedoor.com/%USERNAME%" },
+          "livejournal": { "displayName": "LiveJournal",
+                           "domains": "livejournal.com",
+                           "favicon": "http://www.livejournal.com/favicon.ico",
+                           "url": "http://%USERNAME%.livejournal.com" },
+          "myspace": { "displayName": "MySpace",
+                       "domains": "myspace.com",
+                       "favicon": "http://www.myspace.com/favicon.ico",
+                       "url": "http://myspace.com/%USERNAME%" },
+          "smugmug": { "displayName": "SmugMug",
+                       "domains": "smugmug.com",
+                       "favicon": "http://www.smugmug.com/favicon.ico",
+                       "url": "http://%USERNAME%.smugmug.com" },
+          "technorati": { "displayName": "Technorati",
+                          "domains": "technorati.com",
+                          "favicon": "http://technorati.com/favicon.ico",
+                          "url": "http://www.technorati.com/people/technorati/%USERNAME%" },
+          "vidoop": { "displayName": "Vidoop",
+                      "domains": "vidoop.com,myvidoop.com",
+                      "favicon": "http://www.vidoop.com/favicon.ico",
+                      "url": "http://%USERNAME%.myvidoop.com/" },
+          "vox": { "displayName": "Vox",
+                   "domains": "vox.com",
+                   "favicon": "http://static.vox.com/.shared:v42.22:vox:en_us/images/favicon.ico",
+                   "url": "http://%USERNAME%.vox.com" },
+          "yahoo": { "displayName": "Yahoo",
+                     "domains": "yahoo.com",
+                     "favicon": "http://www.yahoo.com/favicon.ico",
+                     "url": "https://me.yahoo.com/%USERNAME%" },
+          "wordpress": { "displayName": "WordPress.com",
+                         "domains": "wordpress.com",
+                         "favicon": "http://www.wordpress.com/favicon.ico",
+                         "url": "http://%USERNAME%.wordpress.com" }
+        }
+      ]]>
+    </string>
+    <string name="openID_xPath" locale="default">
+      <![CDATA[//input[contains(translate(@name, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"openid") or contains(translate(@id, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"openid")]]]>
+    </string>
+  </strings>
+
+  <!-- OpenID sites adhere to either using "openid_url" or "openid_identifier" as
+        @id or @name attributes for the login input field -->
+  <detect type="openID_detect">
+    <xpath>
+      <![CDATA[//input[contains(translate(@name, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"openid") or contains(translate(@id, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"),"openid")]]]>
+    </xpath>
+  </detect>
+
+  <detect type="oidurl_detect">
+    <xpath>
+      <![CDATA[//input[@id="oidurl"]]]>
+    </xpath>
+  </detect>
+
+</service>

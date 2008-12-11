@@ -1,0 +1,5 @@
+resource    fopenid    components/
+content     fopenid    content/
+skin        fopenid    classic/1.0    skin/
+locale      fopenid    en-US          locales/en-US/
+overlay chrome://browser/content/browser.xul chrome://fopenid/content/browserOverlay.xul
