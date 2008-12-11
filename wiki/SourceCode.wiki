@@ -1,0 +1,27 @@
+#summary checking out IDIB code
+
+IDIB projects can be checked out as one or individually
+
+== All Projects ==
+
+{{{
+svn checkout http://idib.googlecode.com/svn/ idib
+}}}
+
+== IDIB Beacon ==
+
+{{{
+svn checkout http://idib.googlecode.com/svn/beacon/trunk beacon
+}}}
+
+== Flock OpenID ==
+
+{{{
+svn checkout http://idib.googlecode.com/svn/flock/trunk beacon
+}}}
+
+== Firefox OpenID ==
+
+{{{
+svn checkout http://idib.googlecode.com/svn/firefox/trunk beacon
+}}}
