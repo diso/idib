@@ -2,9 +2,7 @@
 
 = Introduction =
 
-IDentity In the Browser or "IDIB" (pronounced 'eye dib') is a new technology that addresses many of the problems facing OpenID today.
-
-This document outlines the necessary steps for adding IDIB support to any Relying Party (RP) site. They key points in the RP implementation are for the RP to define where their login form is located and to establish a user 'beacon' that allows the plug-in to determine if a user is already logged into a given RP.
+This document outlines the necessary steps for adding IDIB [Beacon Beacon] to any Relying Party (RP) site. They key points in the RP implementation are for the RP to define where their login form is located and to establish a user 'beacon' that allows the plug-in to determine if a user is already logged into a given RP.
 
 == Relying Party Support ==
 
