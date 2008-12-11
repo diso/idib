@@ -1,0 +1,9 @@
+#summary Flock OpenID
+
+= Introduction =
+
+Flock OpenID is the result of an join effort between Flock, MySpace and Vidoop.  Flock OpenID addresses some of the user experience issues facing OpenID today by cleanly integrating it into the browser.
+
+The latest alpha release of the extension [https://extensions.flock.com/extensions/#openid is available] for the Flock browser.
+
+Here is an [http://www.vimeo.com/2402686 introductory video] about how IDIB works.
