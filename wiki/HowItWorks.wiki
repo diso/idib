@@ -1,4 +1,4 @@
-#summary An overview of the user experience of idib
+#summary An overview of the IDIB beacon user experience
 
 = Introduction =
 
