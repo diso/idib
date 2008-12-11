@@ -6,4 +6,4 @@ idib-compatible sites advertise their support with a special header that points 
 
 When you visit a site that supports idib, a toolbar enabling you to sign-in will appear:
 
-http://browser-identity.googlecode.com/files/IDIB%20notification%20bar.png
+http://idib.googlecode.com/files/IDIB%20notification%20bar.png
