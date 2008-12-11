@@ -1,5 +1,4 @@
 #summary Relying Party Implementation Overview
-#labels Deprecated
 
 = Introduction =
 
