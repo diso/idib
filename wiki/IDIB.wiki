@@ -1,4 +1,4 @@
-IDentity In the Browser
+IDentity In The Browser
 
 == Definition ==
 
