@@ -11,17 +11,17 @@ svn checkout http://idib.googlecode.com/svn/ idib
 == IDIB Beacon ==
 
 {{{
-svn checkout http://idib.googlecode.com/svn/beacon/trunk beacon
+svn checkout http://idib.googlecode.com/svn/beacon/trunk idib-beacon
 }}}
 
 == Flock OpenID ==
 
 {{{
-svn checkout http://idib.googlecode.com/svn/flock/trunk beacon
+svn checkout http://idib.googlecode.com/svn/flock/trunk flock-openid
 }}}
 
 == Firefox OpenID ==
 
 {{{
-svn checkout http://idib.googlecode.com/svn/firefox/trunk beacon
+svn checkout http://idib.googlecode.com/svn/firefox/trunk firefox-openid
 }}}
