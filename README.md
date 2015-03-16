@@ -2,6 +2,6 @@ IDIB is an umbrella project that serves as a development hub for OpenID integrat
 
 Things currently being developed under IDIB:
 
-  * [IDIB Beacon](Beacon.md) - Discoverability
-  * [Flock OpenID](FlockOpenID.md) - User Experience
-  * [Firefox OpenID](FirefoxOpenID.md) - Porting of Flock OpenID
+  * [IDIB Beacon](https://github.com/diso/idib/wiki/Beacon) - Discoverability
+  * [Flock OpenID](https://github.com/diso/idib/wiki/FlockOpenID) - User Experience
+  * [Firefox OpenID](https://github.com/diso/idib/wiki/FirefoxOpenID) - Porting of Flock OpenID
