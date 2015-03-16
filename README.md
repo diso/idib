@@ -11,3 +11,14 @@ Things currently being developed under IDIB:
   * [IDIB Beacon](https://github.com/diso/idib/wiki/Beacon) - Discoverability
   * [Flock OpenID](https://github.com/diso/idib/wiki/FlockOpenID) - User Experience
   * [Firefox OpenID](https://github.com/diso/idib/wiki/FirefoxOpenID) - Porting of Flock OpenID
+
+### Blogs ###
+ - [Vidoop Labs](http://labs.vidoop.com/)
+
+### External links ###
+ - [XRDS Simple specification](http://xrds-simple.net/core/1.0/)
+ - [OpenID 2.0 specification](http://openid.net/specs/openid-authentication-2_0.html)
+
+### Groups ###
+ - [Mailing List](http://groups.google.com/group/idib)
+ - [Commit Messages](http://groups.google.com/group/idib-commit)
